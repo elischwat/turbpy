@@ -44,6 +44,7 @@ stability_params:
     # This is the alpha value. Note, that it is formulated identical
     # to the standard scheme
     webb: 5
+    marks_dozier: 5.2
 
 # ------------------------------------------------------------------------------
 # Parameters specifying how to run the MO scheme.
@@ -52,7 +53,7 @@ monin_obukhov:
     # Monin-Obukhov approach. The options are displayed below.
     gradient_function: 'holtslag_debruin'
     roughness_function: 'yang_08'
-    conductance_approx: 'approximate'
+    conductance_approx: 'full'
 
     # Methods available within turbpy
     available_gradient_funcs:
@@ -62,6 +63,7 @@ monin_obukhov:
         - 'webb_noahmp'
         - 'webb_clmv45'
         - 'cheng_brutsaert'
+        - 'marks_dozier'
     available_capping:
         # Apply the windless exchange as implemented in SNTHERM
         - 'windless_exchange'

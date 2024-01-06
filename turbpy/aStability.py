@@ -146,6 +146,7 @@ def aStability(param_dict, mHeight, airTemp, airVaporPress,
                             'webb_noahmp': webb_noahmp,
                             'webb_clmv45': webb_clmv45,
                             'cheng_brutsaert': cheng_brutsaert,
+                            'marks_dozier': marks_dozer
                             }
 
         # Dictionary of available roughness length parameterizations
@@ -616,6 +617,24 @@ def aStability(param_dict, mHeight, airTemp, airVaporPress,
         # Return psi_h, psi_m, dpsi_h/dzeta, and dpsi_m/dzeta for handling
         # cases when those terms are not equal. Note, that in Webb these
         # terms are assumed to be equal to each other.
+        
+        return stab, stab, dstab_dzeta, dstab_dzeta
+    
+     
+    def marks_dozer(zeta, stabParams):
+        alpha = stabParams['stability_params']['marks_dozier']
+
+        if zeta >= 0 and zeta <= 1:
+            stab = -alpha * zeta
+            dstab_dzeta = -alpha
+        elif zeta > 1:
+            stab = -alpha
+            dstab_dzeta = 0
+
+        # Return psi_h, psi_m, dpsi_h/dzeta, and dpsi_m/dzeta for handling
+        # cases when those terms are not equal. Note, that in Webb these
+        # terms are assumed to be equal to each other.
+        
         return stab, stab, dstab_dzeta, dstab_dzeta
 
 # ------------------------------------------------------------------------------

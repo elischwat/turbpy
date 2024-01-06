@@ -15,7 +15,7 @@ def yaml_dict(yaml_path):
         raise IOError('Could not find yml file at ' + yaml_path)
 
     with open(yaml_path, 'r') as ymlfile:
-        param_dict = yaml.load(ymlfile)
+        param_dict = yaml.full_load(ymlfile)
     return param_dict
 
 
@@ -50,9 +50,9 @@ def get_params(param_dict):
     methods_need_params = ['standard', 'louis', 'mahrt']
     if stab_method in methods_need_params:
         try:
-            stab_param = param_dict['stability_params'][stab_method]
+            out_param_dict['stability_params'][stab_method] = param_dict['stability_params'][stab_method]
         except KeyError:
-            stab_param = defaults['stability_params'][stab_method]
+            out_param_dict['stability_params'][stab_method] = defaults['stability_params'][stab_method]
 
     # Find out what capping should be used.
     try:
@@ -87,11 +87,9 @@ def get_params(param_dict):
         # Catch the one case with a tunable parameter.
         if gradient_function == 'webb':
             try:
-                stab_param = param_dict['stability_params']['webb']
+                out_param_dict['stability_params']['webb'] = param_dict['stability_params']['webb']
             except KeyError:
-                stab_param = defaults['stability_params']['webb']
-        else:
-            stab_param = None
+                out_param_dict['stability_params']['webb'] = defaults['stability_params']['webb']
 
         # Determine if the capping option is correct
         if capping not in defaults['monin_obukhov']['available_capping']:
@@ -134,7 +132,6 @@ def get_params(param_dict):
 
     # Assign last values for returning.
     out_param_dict['stability_method'] = stab_method
-    out_param_dict['stability_params'][stab_method] = stab_param
     out_param_dict['capping'] = capping
 
     return(out_param_dict)
